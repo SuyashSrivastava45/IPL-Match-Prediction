@@ -12,8 +12,8 @@
 
 This project presents a **machine learning solution for the IPL 2026 Match Forecast Kaggle Competition**.
 
-The objective is to predict **probability distributions** for multiple scoring outcomes instead of predicting a single winner.  
-The model focuses on generating **well-calibrated probabilities** optimized for **Log Loss evaluation**.
+The objective is to predict **probability distributions** for multiple scoring outcomes rather than predicting a single winner.  
+The model is optimized for **Log Loss evaluation**, focusing on balanced and calibrated probabilities.
 
 ---
 
@@ -28,20 +28,14 @@ For each IPL match, predict probabilities for the following outcomes:
 | 🔴 B_small | Team B scores a lower total |
 | 🔴 B_big | Team B scores a higher total |
 
-The final submission must satisfy:
-
-```python
-A_small + A_big + B_small + B_big = 1
-```
-
 ---
 
 # ⚙️ Workflow
 
 ## 🔹 Data Processing
-- Cleaned raw IPL ball-by-ball dataset
+- Cleaned IPL ball-by-ball dataset
 - Converted innings-level data into match-level statistics
-- Aggregated total runs for each match
+- Aggregated total match runs
 
 ---
 
@@ -53,8 +47,6 @@ Used **quantile-based binning** to create balanced multiclass targets:
 - Class 2 → High Score
 - Class 3 → Very High Score
 
-This helped reduce class imbalance and improve probability learning.
-
 ---
 
 # 🧠 Feature Engineering
@@ -65,18 +57,16 @@ Generated lightweight statistical features:
 - Mean-centered runs
 - Standardized scoring metrics
 
-These features provide baseline match scoring behavior for multiclass prediction.
-
 ---
 
 # 🤖 Model
 
 ## ✅ LightGBM Multiclass Classifier
 
-The project uses **LightGBM** because of:
+The project uses **LightGBM** for:
 
-- Fast training speed
-- Efficient handling of tabular data
+- Fast training
+- Efficient tabular learning
 - Strong multiclass performance
 - Better probability estimation
 
@@ -97,9 +87,9 @@ LGBMClassifier(
 
 # 🔥 Probability Calibration
 
-Raw predictions from boosting models were highly overconfident.
+Raw boosting predictions were highly overconfident.
 
-To improve probability spread and Log Loss performance, **probability smoothing** was applied:
+To improve probability distribution and Log Loss performance:
 
 ```python
 probs = probs ** 0.25
@@ -112,13 +102,13 @@ This significantly improved prediction calibration.
 
 # 📊 Submission Format
 
-The final submission file contains:
+Final submission contains:
 
 | match_id | A_small | A_big | B_small | B_big |
 |----------|----------|--------|----------|--------|
 
 ✔ All values are probabilities  
-✔ All rows are normalized  
+✔ Each row sums to 1  
 ✔ Fully competition-compatible
 
 ---
@@ -135,30 +125,88 @@ The final submission file contains:
 
 ---
 
-# 🚀 Results
+# 🚀 Installation & Setup
 
-✅ Successfully generated valid Kaggle submissions  
-✅ Balanced probability distributions  
-✅ Stable multiclass baseline model  
-✅ Competition-ready pipeline
+## 🔹 Clone Repository
+
+```bash
+git clone https://github.com/your-username/IPL-Match-Prediction.git
+cd IPL-Match-Prediction
+```
+
+---
+
+## 🔹 Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 🔹 Run Notebook
+
+Launch Jupyter Notebook:
+
+```bash
+jupyter notebook
+```
+
+Open:
+
+```bash
+final_lgbm_notebook.ipynb
+```
+
+Run all cells to generate:
+
+```bash
+submission.csv
+```
+
+---
+
+# 📦 Requirements
+
+```txt
+numpy==1.26.4
+pandas==2.2.2
+lightgbm==4.3.0
+scikit-learn==1.4.2
+scipy==1.13.1
+joblib==1.4.2
+threadpoolctl==3.5.0
+python-dateutil==2.9.0.post0
+pytz==2024.1
+tzdata==2024.1
+```
+
+---
+
+# 🏆 Results
+
+✅ Valid Kaggle submission  
+✅ Balanced multiclass probability outputs  
+✅ Stable baseline forecasting pipeline  
+✅ Competition-ready workflow
 
 ---
 
 # 🧩 Key Learnings
 
-- Probability calibration is critical in Log Loss competitions
-- Balanced target engineering improves multiclass learning
-- Even simple statistical features can produce competitive baseline results
+- Probability calibration is critical for Log Loss competitions
+- Balanced target engineering improves multiclass prediction
+- Even lightweight statistical features can provide strong baseline performance
 
 ---
 
 # 🔮 Future Improvements
 
-- Team-wise historical performance
-- Venue & pitch conditions
-- Player form analysis
+- Team-level historical performance
+- Venue & pitch analysis
+- Player form tracking
 - Ensemble models (XGBoost + LightGBM)
-- Advanced feature engineering
+- Advanced cricket-specific features
 
 ---
 
@@ -176,7 +224,7 @@ The final submission file contains:
 
 ### IPL 2026 Match Forecast Challenge
 
-This repository contains my complete solution pipeline for the competition, including:
+This repository contains:
 - Data preprocessing
 - Feature engineering
 - Model training
